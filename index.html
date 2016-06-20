@@ -5,6 +5,7 @@
     <title>{{title}}</title>
 
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 
     <!--Bootstrap-->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
@@ -23,12 +24,20 @@
         <div class="card-deck-wrapper">
             <div class="card-deck">
                 <div class="card card-block" ng-repeat="a in algorithms">
-                    <h4 class="card-title">{{a}}</h4>
-                    <p class="card-text">{{a}}</p>
+                    <h4 class="card-title">{{a.Name}}</h4>
 
-                    <canvas id="{{a}}Canvas" width="270" height="{{heightOfCanvas}}">
+                    <canvas id="{{a.Name}}Canvas" width="270" height="{{heightOfCanvas}}">
                         Your browser does not support HTML5 Canvas.
                     </canvas>
+
+                    <p class="card-text">
+                        <a class="btn btn-primary-outline btn-sm" ng-click="generate(a)">
+                            <i class="fa fa-refresh" aria-hidden="true"></i> Generate New Collection
+                        </a>
+                        <a class="btn btn-danger-outline btn-sm" ng-click="sort(a)">
+                            <i class="fa fa-cog" aria-hidden="true"></i> Sort
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>
