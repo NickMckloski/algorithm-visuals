@@ -11,6 +11,7 @@ app.factory('Sorting', function ($window) {
 
         var interval = setInterval(function() {
             i++;
+            alg.Position = i;
             if(i >= alg.Collection.length) {
                 clearInterval(interval);
                 return;
@@ -27,7 +28,7 @@ app.factory('Sorting', function ($window) {
             //in sorted part.
             alg.Collection[j+1] = temp;
             alg.DrawCollection();
-        }, 100);
+        }, 50);
 
     };
 
@@ -39,6 +40,7 @@ app.factory('Sorting', function ($window) {
 
         var interval = setInterval(function() {
             i++;
+            alg.Position = i;
             if(i >= alg.Collection.length) {
                 clearInterval(interval);
                 return;
@@ -55,7 +57,7 @@ app.factory('Sorting', function ($window) {
             // }
 
             alg.DrawCollection();
-        }, 100);
+        }, 50);
     };
 
     root.MergeSort = function() {

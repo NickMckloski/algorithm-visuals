@@ -47,7 +47,7 @@ app.controller('index', function ($scope, Sorting) {
             this.Context.beginPath();
             this.Context.moveTo(10 + ($scope.spaceBetweenBars * i), $scope.heightOfCanvas);
             this.Context.lineTo(10 + ($scope.spaceBetweenBars * i), this.Collection[i]);
-            this.Context.strokeStyle = '#000';
+            this.Context.strokeStyle = this.Position == i ? '#ff0000' : '#000';
             this.Context.stroke();
         }
     };
