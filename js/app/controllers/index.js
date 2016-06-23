@@ -5,10 +5,11 @@ app.controller('index', function ($scope, Sorting) {
         this.Context = null;
         this.Collection = [];
         this.Sort = sort;
+        this.Position = null;
     };
 
     //settings
-    $scope.title = 'Index';
+    $scope.title = 'Algorithm Visuals';
     $scope.heightOfCanvas = 100;
     $scope.spaceBetweenBars = 5;
     //algorithms
@@ -61,6 +62,13 @@ app.controller('index', function ($scope, Sorting) {
     $scope.Sort = function (algorithm) {
         algorithm.Sort();
     };
+
+    //generates a collection for each algorithm on page load
+    $(document).ready(function() {
+        for (var i = 0; i < $scope.algorithms.length; i++) {
+            $scope.Generate($scope.algorithms[i]);
+        }
+    });
 
     /**
      * Generates random number in given range

@@ -5,20 +5,18 @@ app.factory('Sorting', function ($window) {
 
     /**
      * Insertion sort logic
-     * @constructor
      */
     root.InsertionSort = function() {
         var alg = this;
 
-        //start at -1 because it will increment to 0
-        var i = -1;
+        var i = 0;
 
         //algorithm is run through an interval to slow it down
         //and allow visual canvas the be drawn.
         var interval = setInterval(function() {
-            i++;
             alg.Position = i;
             if(i >= alg.Collection.length) {
+                //reset loop
                 alg.Position = null;
                 alg.DrawCollection();
                 clearInterval(interval);
@@ -35,6 +33,8 @@ app.factory('Sorting', function ($window) {
             //Insert the copied number at the correct position
             //in sorted part.
             alg.Collection[j+1] = temp;
+
+            i++;
             alg.DrawCollection();
         }, 50);
 
@@ -42,20 +42,17 @@ app.factory('Sorting', function ($window) {
 
     /**
      * Bubble sort logic
-     * @constructor
      */
     root.BubbleSort = function() {
         var alg = this;
 
-        //start at -1 because it will increment to 0
-        var i = -1;
+        var i = 0;
         var changesMade = true;
         var lastUnsortedIndex = alg.Collection.length;
 
         //algorithm is run through an interval to slow it down
         //and allow visual canvas the be drawn.
         var interval = setInterval(function() {
-            i++;
             alg.Position = i;
             if(i >= lastUnsortedIndex) {
                 if(!changesMade) {
@@ -74,20 +71,85 @@ app.factory('Sorting', function ($window) {
 
             //compare elements
             if(alg.Collection[i] < alg.Collection[i+1]) {
-                var temp = alg.Collection[i + 1];
                 //replace elements
+                var temp = alg.Collection[i + 1];
                 alg.Collection[i + 1] = alg.Collection[i];
                 alg.Collection[i] = temp;
                 changesMade = true;
             }
 
+            i++;
             alg.DrawCollection();
-        }, 15);
+        }, 5);
     };
 
-
+    /**
+     * Merge sort logic
+     */
     root.MergeSort = function() {
-        console.log(this);
+        var alg = this;
+
+        //reused compare function
+        function compare(a, b) {
+            if (a < b) {
+                return 1;
+            }
+            if (a > b) {
+                return -1;
+            }
+            return 0;
+        }
+
+        //main merging logic
+        function bottomUpMerge(array, leftPosition, chunkSize, workArray, compare) {
+            var i;
+            var rightPosition = leftPosition + chunkSize;
+            var endPosition = Math.min(leftPosition + chunkSize * 2 - 1,
+                array.length - 1);
+            var leftIndex = leftPosition;
+            var rightIndex = rightPosition;
+
+            for (i = 0; i <= endPosition - leftPosition; i++) {
+                if (leftIndex < rightPosition &&
+                    (rightIndex > endPosition ||
+                    compare(array[leftIndex], array[rightIndex]) <= 0)) {
+                    workArray[i] = array[leftIndex++];
+                } else {
+                    workArray[i] = array[rightIndex++];
+                }
+            }
+
+            for (i = leftPosition; i <= endPosition; i++) {
+                array[i] = workArray[i - leftPosition];
+            }
+        }
+
+
+        var workArray = new Array(alg.Collection.length);
+        var chunkSize = 1;
+        var interval = setInterval(function () {
+            if (chunkSize < alg.Collection.length) {
+                var i = 0;
+
+                alg.Position = chunkSize;
+
+                //split into chunks and merge
+                while (i < alg.Collection.length - chunkSize) {
+                    bottomUpMerge(alg.Collection, i, chunkSize, workArray, compare);
+                    i += chunkSize * 2;
+                }
+
+                chunkSize *= 2;
+                alg.DrawCollection();
+            } else {
+                //end loop
+                alg.Position = null;
+                alg.DrawCollection();
+                clearInterval(interval);
+            }
+
+        }, 100);
+
     };
 
     return root;
